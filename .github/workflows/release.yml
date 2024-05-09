@@ -133,4 +133,5 @@ jobs:
           tag: ${{ github.ref }}
           file: x-ui-linux-${{ matrix.platform }}.tar.gz
           asset_name: x-ui-linux-${{ matrix.platform }}.tar.gz
-          prerelease: true
+          overwrite: true
+          
