@@ -367,7 +367,7 @@ type OutboundSettings struct {
 
 type VnextSetting struct {
 	Address string      `json:"address"`
-	Port    int         `json:"port"`
+	Port    int         `json:"port"
 	Users   []UserVnext `json:"users"`
 }
 
