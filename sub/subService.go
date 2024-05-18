@@ -508,6 +508,11 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 
 			if newSecurity != "same" {
 				params["security"] = newSecurity
+				if newSecurity = "tls" {
+					params["fp"] = "chrome"
+					params["sni"] = ep["dest"].(string)
+					params["host"] = ep["dest"].(string)
+				}
 			} else {
 				params["security"] = security
 			}
