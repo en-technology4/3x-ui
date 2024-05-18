@@ -352,6 +352,11 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 	case "ws":
 		ws, _ := stream["wsSettings"].(map[string]interface{})
 		params["path"] = ws["path"].(string)
+		if len(ws["host"].(string)) > 0 {
+			params["host"] = ws["host"].(string)
+		} else {
+			params["host"] = s.address
+		}
 		params["host"] = ws["host"].(string)
 		headers, _ := ws["headers"].(map[string]interface{})
 		if headers != nil {
@@ -403,6 +408,8 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		}
 		if sniValue, ok := searchKey(tlsSetting, "serverName"); ok {
 			params["sni"], _ = sniValue.(string)
+		} else {
+			params["sni"], _ = s.address
 		}
 
 		tlsSettings, _ := searchKey(tlsSetting, "settings")
@@ -415,6 +422,8 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 					params["allowInsecure"] = "1"
 				}
 			}
+		} else {
+			params["fp"], _ = "chrome"
 		}
 
 		if streamNetwork == "tcp" && len(clients[clientIndex].Flow) > 0 {
