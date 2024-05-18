@@ -409,7 +409,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		if sniValue, ok := searchKey(tlsSetting, "serverName"); ok {
 			params["sni"], _ = sniValue.(string)
 		} else {
-			params["sni"], _ = address.(string)
+			params["sni"] = address.(string)
 		}
 
 		tlsSettings, _ := searchKey(tlsSetting, "settings")
