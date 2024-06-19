@@ -181,7 +181,7 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 			
 				if newStream["network"]=="ws" {
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
-				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
+				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= newStream["tlsSettings"].(map[string]interface{})["serverName"]
 				}
 			
 		case "none":
