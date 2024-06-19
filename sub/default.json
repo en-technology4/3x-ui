@@ -3,12 +3,27 @@
   "dns": {
     "tag": "dns_out",
     "queryStrategy": "UseIP",
-    "servers": [
-      {
-        "address": "8.8.8.8",
-        "skipFallback": false
-      }
-    ]
+   "servers": [
+			"https://dns.blokada.org/dns-query",
+			"https://dns.artikel10.org/dns-query",
+			"https://pihole2.hoerli.net/dns-query",
+			"https://doh.xcom.pro/dns-query",
+			{
+				"address": "10.202.10.202",
+				"domains": [
+					"domain:anydesk.com",
+					"domain:eitaa.com",
+					"domain:ir",
+					"domain:microsoft.com",
+					"domain:windowsupdate.com",
+					"geosite:category-ir"
+				],
+				"expectIPs": [
+					"geoip:ir"
+				],
+				"port": 53
+			}
+		]
   },
   "inbounds": [
     {
@@ -46,7 +61,7 @@
       "tag": "direct",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIP"
+       
       }
     },
     {
