@@ -178,7 +178,7 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 				
 		case "same":	
 
-			streamSettings
+			
 				if newStream["streamSettings"].(map[string]interface{})["network"]=="ws" {
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
 				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
