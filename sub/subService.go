@@ -521,7 +521,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 				}
 			} else {
 				params["security"] = security
-				if  len(params["host"].(string)) == 0 {					
+				if  len(params["host"]) == 0 {					
 				
 					params["host"] = ep["dest"].(string)
 				}
