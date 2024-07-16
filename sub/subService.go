@@ -512,8 +512,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 			port := int(ep["port"].(float64))
 			link := fmt.Sprintf("vless://%s@%s:%d", uuid, dest, port)
 
-			if newSecurity != "same" {
-				params["security"] = newSecurity
+			
 							if newSecurity != "same" {
 				params["security"] = newSecurity
 				if newSecurity == "tls" {
