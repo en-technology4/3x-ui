@@ -165,12 +165,17 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 		case "tls":
 			if newStream["security"] != "tls" {
 				newStream["security"] = "tls"
-				newStream["tslSettings"] = map[string]interface{}{}
+								newStream["tlsSettings"] = map[string]interface{}{}
+				newStream["tlsSettings"].(map[string]interface{})["serverName"] = extPrxy["dest"].(string)
+				newStream["tlsSettings"].(map[string]interface{})["fingerprint"] ="chrome"
+				//newStream["wsSettings"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
+				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
+				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
 			}
 		case "none":
 			if newStream["security"] != "none" {
 				newStream["security"] = "none"
-				delete(newStream, "tslSettings")
+				delete(newStream, "tlsSettings")
 			}
 		}
 		streamSettings, _ := json.MarshalIndent(newStream, "", "  ")
