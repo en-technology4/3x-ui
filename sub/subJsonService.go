@@ -177,6 +177,14 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 				newStream["security"] = "none"
 				delete(newStream, "tlsSettings")
 			}
+
+			case "same":	
+
+
+				if newStream["network"]=="ws" {
+				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
+				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= newStream["tlsSettings"].(map[string]interface{})["serverName"]
+				}
 		}
 		streamSettings, _ := json.MarshalIndent(newStream, "", "  ")
 
