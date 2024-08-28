@@ -363,7 +363,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		if host, ok := ws["host"].(string); ok && len(host) > 0 {
 			params["host"] = host
 		} else {
-						params["host"] = address
+			params["host"] = address
 		}
 	case "http":
 		http, _ := stream["httpSettings"].(map[string]interface{})
@@ -410,12 +410,16 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		for _, a := range alpns {
 			alpn = append(alpn, a.(string))
 		}
+
 		if len(alpn) > 0 {
 			params["alpn"] = strings.Join(alpn, ",")
 		}
+		if params["host"] != "" && params["sni"] == "" {
+			params["sni"] = params["host"]
+		}
 		if sniValue, ok := searchKey(tlsSetting, "serverName"); ok {
 			params["sni"], _ = sniValue.(string)
-			}else {
+		} else {
 			params["sni"] = address
 		}
 
@@ -423,9 +427,9 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		if tlsSetting != nil {
 			if fpValue, ok := searchKey(tlsSettings, "fingerprint"); ok {
 				params["fp"], _ = fpValue.(string)
-			}else {
-			params["fp"] = "chrome"
-		}
+			} else {
+				params["fp"] = "chrome"
+			}
 			if insecure, ok := searchKey(tlsSettings, "allowInsecure"); ok {
 				if insecure.(bool) {
 					params["allowInsecure"] = "1"
@@ -513,20 +517,22 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 			port := int(ep["port"].(float64))
 			link := fmt.Sprintf("vless://%s@%s:%d", uuid, dest, port)
 
-			
-							if newSecurity != "same" {
+			if newSecurity != "same" {
 				params["security"] = newSecurity
 				if newSecurity == "tls" {
 					params["fp"] = "chrome"
-					params["sni"] = address
-					params["host"] = address
+					if params["host"] == "" {
+						params["sni"] = address
+						params["host"] = address
+					}
+
 				}
 			} else {
 				params["security"] = security
 
-				if params["security"]  == "tls" {
+				if params["security"] == "tls" && params["host"] == "" {
 					params["host"] = params["sni"]
-					}
+				}
 
 			}
 			url, _ := url.Parse(link)
