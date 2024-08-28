@@ -174,9 +174,9 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
 				//newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
 			}
-			if host != "" {
-				newStream["tlsSettings"].(map[string]interface{})["serverName"] = host
-				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = host
+			if newStream["wsSettings"].(map[string]interface{})["host"] != "" {
+				newStream["tlsSettings"].(map[string]interface{})["serverName"] = newStream["wsSettings"].(map[string]interface{})["host"]
+				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = newStream["wsSettings"].(map[string]interface{})["host"]
 			}
 		case "none":
 			if newStream["security"] != "none" {
@@ -188,9 +188,9 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 
 			if newStream["network"] == "ws" {
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
-				if host != "" {
-					newStream["tlsSettings"].(map[string]interface{})["serverName"] = host
-					newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = host
+				if newStream["wsSettings"].(map[string]interface{})["host"] != "" {
+					newStream["tlsSettings"].(map[string]interface{})["serverName"] = newStream["wsSettings"].(map[string]interface{})["host"]
+					newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = newStream["wsSettings"].(map[string]interface{})["host"]
 				}
 			}
 
