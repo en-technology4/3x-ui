@@ -1,4 +1,4 @@
-[English](/README.md) | [Chinese](/README.zh.md) | [Español](/README.es_ES.md)
+[English](/README.md) | [中文](/README.zh_CN.md) | [Español](/README.es_ES.md) | [Русский](/README.ru_RU.md)
 
 <p align="center"><a href="#"><img src="./media/3X-UI.png" alt="Image"></a></p>
 
