@@ -165,12 +165,16 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 		case "tls":
 			if newStream["security"] != "tls" {
 				newStream["security"] = "tls"
-								newStream["tlsSettings"] = map[string]interface{}{}
-				newStream["tlsSettings"].(map[string]interface{})["serverName"] = extPrxy["dest"].(string)
-				newStream["tlsSettings"].(map[string]interface{})["fingerprint"] ="chrome"
+				newStream["tlsSettings"] = map[string]interface{}{}
+				if host != "" {
+					newStream["tlsSettings"].(map[string]interface{})["serverName"] = host
+					newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = host
+				}
+				//newStream["tlsSettings"].(map[string]interface{})["serverName"] = extPrxy["dest"].(string)
+				newStream["tlsSettings"].(map[string]interface{})["fingerprint"] = "chrome"
 				//newStream["wsSettings"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
-				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
+				//newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= extPrxy["dest"].(string)
 			}
 		case "none":
 			if newStream["security"] != "none" {
@@ -178,13 +182,12 @@ func (s *SubJsonService) getConfig(inbound *model.Inbound, client model.Client, 
 				delete(newStream, "tlsSettings")
 			}
 
-			case "same":	
+		case "same":
 
-
-				if newStream["network"]=="ws" {
+			if newStream["network"] == "ws" {
 				newStream["wsSettings"].(map[string]interface{})["headers"] = map[string]interface{}{}
-				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"]= newStream["tlsSettings"].(map[string]interface{})["serverName"]
-				}
+				newStream["wsSettings"].(map[string]interface{})["headers"].(map[string]interface{})["host"] = newStream["tlsSettings"].(map[string]interface{})["serverName"]
+			}
 		}
 		streamSettings, _ := json.MarshalIndent(newStream, "", "  ")
 
