@@ -362,7 +362,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		params["path"] = ws["path"].(string)
 		if host, ok := ws["host"].(string); ok && len(host) > 0 {
 			params["host"] = host
-		} 
+		}
 	case "http":
 		http, _ := stream["httpSettings"].(map[string]interface{})
 		params["path"] = http["path"].(string)
@@ -412,17 +412,16 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		if len(alpn) > 0 {
 			params["alpn"] = strings.Join(alpn, ",")
 		}
+
+		if sniValue, ok := searchKey(tlsSetting, "serverName"); ok {
+			if sniValue.(string) != "" {
+				params["sni"], _ = sniValue.(string)
+			}
+		}
+
 		if params["host"] != "" && params["sni"] == "" {
 			params["sni"] = params["host"]
 		}
-		if sniValue, ok := searchKey(tlsSetting, "serverName"); ok {
-			params["sni"], _ = sniValue.(string)
-		} else {
-			if params["host"] != "" && params["sni"] == "" {
-			params["sni"] = params["host"]
-		}
-		}
-
 		tlsSettings, _ := searchKey(tlsSetting, "settings")
 		if tlsSetting != nil {
 			if fpValue, ok := searchKey(tlsSettings, "fingerprint"); ok {
